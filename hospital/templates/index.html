@@ -1,0 +1,304 @@
+{% extends 'nav_bar.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid py-4">
+    <!-- Welcome Section with Search -->
+    <div class="welcome-section mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4">Welcome to MediCare Hospital</h1>
+                <p class="lead">Manage your hospital operations efficiently</p>
+            </div>
+            <div class="col-md-4">
+                <div class="search-box">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search patients, doctors, appointments...">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards with Trends -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card bg-primary text-white">
+                <div class="stat-card-content">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3>{{ doctor_count }}</h3>
+                            <p>Total Doctors</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 12%</span>
+                        <span class="trend-period">vs last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-success text-white">
+                <div class="stat-card-content">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3>{{ patient_count }}</h3>
+                            <p>Total Patients</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-procedures fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 8%</span>
+                        <span class="trend-period">vs last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-info text-white">
+                <div class="stat-card-content">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3>{{ appointment_count }}</h3>
+                            <p>Appointments</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 15%</span>
+                        <span class="trend-period">vs last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-warning text-white">
+                <div class="stat-card-content">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3>{{ today_appointments }}</h3>
+                            <p>Today's Appointments</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 5%</span>
+                        <span class="trend-period">vs yesterday</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-8">
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Quick Actions</h5>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="{% url 'add_doctor' %}" class="quick-action-card">
+                                <div class="quick-action-icon bg-primary">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <span>Add Doctor</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{% url 'add_patient' %}" class="quick-action-card">
+                                <div class="quick-action-icon bg-success">
+                                    <i class="fas fa-procedures"></i>
+                                </div>
+                                <span>Add Patient</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{% url 'add_appointment' %}" class="quick-action-card">
+                                <div class="quick-action-icon bg-info">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </div>
+                                <span>New Appointment</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{% url 'view_appointment' %}" class="quick-action-card">
+                                <div class="quick-action-icon bg-warning">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <span>View Appointments</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Appointments -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Upcoming Appointments</h5>
+                    <div class="header-actions">
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary active">Today</button>
+                            <button class="btn btn-sm btn-outline-primary">Week</button>
+                            <button class="btn btn-sm btn-outline-primary">Month</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in upcoming_appointments %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-2">
+                                                <i class="fas fa-user-circle fa-2x text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">{{ appointment.patient.name }}</h6>
+                                                <small class="text-muted">ID: {{ appointment.patient.id }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-2">
+                                                <i class="fas fa-user-md fa-2x text-success"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">{{ appointment.doctor.name }}</h6>
+                                                <small class="text-muted">{{ appointment.doctor.special }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ appointment.date }}</td>
+                                    <td>{{ appointment.time }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ appointment.status_color }}">
+                                            {{ appointment.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-4">
+            <!-- Recent Activities -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Recent Activities</h5>
+                    <button class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="activity-feed">
+                        {% for activity in recent_activities %}
+                        <div class="activity-item">
+                            <div class="activity-icon bg-{{ activity.icon_color }}">
+                                <i class="fas {{ activity.icon }}"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>{{ activity.description }}</p>
+                                <small class="text-muted">{{ activity.timestamp }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Quick Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Available Doctors</div>
+                            <div class="stat-value">{{ available_doctors }}</div>
+                            <div class="stat-progress">
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Occupied Beds</div>
+                            <div class="stat-value">{{ occupied_beds }}/{{ total_beds }}</div>
+                            <div class="stat-progress">
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Emergency Cases</div>
+                            <div class="stat-value">{{ emergency_cases }}</div>
+                            <div class="stat-progress">
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" style="width: 30%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

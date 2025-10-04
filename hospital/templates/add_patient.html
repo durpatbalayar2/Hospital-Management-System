@@ -1,0 +1,139 @@
+{% extends 'nav_bar.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Add New Patient</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Patient Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control" name="name" required
+                                       placeholder="Enter patient's full name">
+                                <div class="invalid-feedback">
+                                    Please enter the patient's name.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Gender</label>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" value="Male" id="male" required>
+                                    <label class="form-check-label" for="male">
+                                        <i class="fas fa-male me-2"></i>Male
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" value="Female" id="female" required>
+                                    <label class="form-check-label" for="female">
+                                        <i class="fas fa-female me-2"></i>Female
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Please select a gender.
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Contact Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="tel" class="form-control" name="mobile" required
+                                       pattern="[0-9]{10}" placeholder="Enter 10-digit contact number">
+                                <div class="invalid-feedback">
+                                    Please enter a valid 10-digit contact number.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                <textarea class="form-control" name="address" required rows="3"
+                                          placeholder="Enter patient's address"></textarea>
+                                <div class="invalid-feedback">
+                                    Please enter the patient's address.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Patient
+                            </button>
+                            <a href="{% url 'view_patient' %}" class="btn btn-secondary">
+                                <i class="fas fa-list me-2"></i>View All Patients
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if error == "no" %}
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Patient record saved successfully!
+        </div>
+    </div>
+</div>
+<script>
+    setTimeout(function() {
+        window.location = '{% url 'view_patient' %}';
+    }, 2000);
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-danger text-white">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <strong class="me-auto">Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Something went wrong. Please try again.
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %}
